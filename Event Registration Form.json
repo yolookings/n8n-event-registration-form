@@ -1,0 +1,224 @@
+{
+  "name": "Event Registration Form",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Event Registration Form",
+        "formDescription": "Please fill out the form below to register.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Full Name",
+              "fieldName": "name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "fieldName": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone",
+              "fieldName": "phone"
+            },
+            {
+              "fieldLabel": "Event Name",
+              "fieldName": "event_name",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "dd64a58f-cd60-431f-82b0-90b5668204f4",
+      "name": "Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        1424,
+        176
+      ],
+      "webhookId": "dd967e6d-8194-4c72-be23-86f51829b8c7"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Ia3-m5x9uffupUJuC9yByJuJLZftjJ1Clp8JuRp1xLY",
+          "mode": "list",
+          "cachedResultName": "Event Registration",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ia3-m5x9uffupUJuC9yByJuJLZftjJ1Clp8JuRp1xLY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ia3-m5x9uffupUJuC9yByJuJLZftjJ1Clp8JuRp1xLY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{$now}}",
+            "name": "={{$json.name}}",
+            "email": "={{$json.email}}",
+            "phone": "={{$json.phone}}",
+            "event_name": "={{$json.event_name}}",
+            "submittedAt": "={{$json.submittedAt}}",
+            "formMode": "={{$json.formMode}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "event_name",
+              "displayName": "event_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "submittedAt",
+              "displayName": "submittedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "formMode",
+              "displayName": "formMode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "cab321e5-e8a1-4318-83dc-5830b23de657",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1648,
+        176
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2qgdy0Uxd0DX5dP8",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Event Registration Confirmation",
+        "emailType": "text",
+        "message": "=Hi {{ $json.name }},\n\nThank you for registering for {{ $json.event_name }}.\n\nWe have received your registration successfully. We will contact you soon with more details.\n\nBest regards,\nEvent Team",
+        "options": {}
+      },
+      "id": "88e18955-671e-4242-8ffb-998d66974003",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1872,
+        176
+      ],
+      "webhookId": "b3c835cf-6a97-4b12-b7d6-da6c875fd9b5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZAhSyr8V0QUGA0ph",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "e9c69085-3723-4f6f-8d1f-acf4d21a1063",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d7c756165fdee37c018c58e04c6940577f171ff8aa064bacb9190409eae50a34"
+  },
+  "id": "CejqOTuxeWCY7UBD",
+  "tags": []
+}
